@@ -27,7 +27,6 @@ public class Detail : MonoBehaviour
         color.a = 0f;
 
         _outlineComponent.OutlineColor = color;
-        _outlineComponent.enabled = false;
     }
 
     public void RepairDetail()
@@ -62,12 +61,12 @@ public class Detail : MonoBehaviour
 
     private IEnumerator ColorizeCor(Color endColor, float duration)
     {
-        if (duration > 0 && _outlineComponent.OutlineColor != endColor)
+        if (duration > 0)
         {
             Color startColor = _outlineComponent.OutlineColor;
             Color currentColor = startColor;
 
-            if (_outlineComponent.enabled == false)
+            if (_outlineComponent.OutlineColor.a == 0)
             {
                 _outlineComponent.enabled = true;
                 currentColor = endColor;
@@ -84,7 +83,7 @@ public class Detail : MonoBehaviour
                 _outlineComponent.OutlineColor = currentColor;
             }
 
-            else if (_outlineComponent.enabled == true)
+            else if (_outlineComponent.OutlineColor.a > 0)
             {
                 for (float t = 0; t < duration; t += Time.deltaTime)
                 {
