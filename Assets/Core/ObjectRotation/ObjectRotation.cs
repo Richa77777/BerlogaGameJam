@@ -11,6 +11,8 @@ public class ObjectRotation : MonoBehaviour
     private Vector3 _startRotation;
     private Tween _returnToStartPosTween;
 
+    private bool _rotationIsBlocked = false;
+
     private void Awake()
     {
         _startRotation = transform.eulerAngles;
@@ -25,16 +27,19 @@ public class ObjectRotation : MonoBehaviour
         {
             if (Input.GetTouch(0).phase == TouchPhase.Moved)
             {
-                float xRotation = Input.GetTouch(0).deltaPosition.x * _rotationSpeed * Mathf.Deg2Rad * Time.deltaTime;
-                float yRotation = Input.GetTouch(0).deltaPosition.y * _rotationSpeed * Mathf.Deg2Rad * Time.deltaTime;
+                if (_rotationIsBlocked == false)
+                {
+                    float xRotation = Input.GetTouch(0).deltaPosition.x * _rotationSpeed * Mathf.Deg2Rad * Time.deltaTime;
+                    float yRotation = Input.GetTouch(0).deltaPosition.y * _rotationSpeed * Mathf.Deg2Rad * Time.deltaTime;
 
-                transform.Rotate(Vector3.up, -xRotation, Space.World);
-                transform.Rotate(Vector3.right, yRotation, Space.World);
+                    transform.Rotate(Vector3.up, -xRotation, Space.World);
+                    transform.Rotate(Vector3.right, yRotation, Space.World);
+                }
             }
         }
     }
 
-    public void ReturnToStartRotation()
+    private void ReturnToStartRotation()
     {
         if (_returnToStartPosTween == null)
         {
@@ -45,5 +50,15 @@ public class ObjectRotation : MonoBehaviour
     private void SetTweenToNull()
     {
         _returnToStartPosTween = null;
+    }
+
+    public void BlockRotation()
+    {
+        _rotationIsBlocked = true;
+    }
+
+    public void UnblockRotation()
+    {
+        _rotationIsBlocked = false;
     }
 }

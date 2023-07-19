@@ -8,7 +8,7 @@ public class DetailsContainer : MonoBehaviour
 
     private Coroutine _colorizeAllDetailsCor;
 
-    public int GetNotBrokenDetailsCount()
+    private int GetNotBrokenDetailsCount()
     {
         int count = 0;
 

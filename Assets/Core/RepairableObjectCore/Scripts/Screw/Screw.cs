@@ -1,11 +1,14 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 using System.Collections;
-using System.Collections.Generic;
+
 
 public class Screw : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
+    public Action<Screw> OnUnscrewed;
+
     [SerializeField] private float _rotationSpeed = 2f;
     [SerializeField] private float _unscrewingTime = 0.75f;
     [SerializeField] private float _moveAfterUnscrewingTime = 1f;
@@ -59,6 +62,7 @@ public class Screw : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     private void OffGameObject()
     {
+        OnUnscrewed?.Invoke(this);
         gameObject.SetActive(false);
     }
 }
