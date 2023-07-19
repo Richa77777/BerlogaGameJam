@@ -12,7 +12,7 @@ public class Screw : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     [SerializeField] private float _rotationSpeed = 2f;
     [SerializeField] private float _unscrewingTime = 0.75f;
     [SerializeField] private float _moveAfterUnscrewingTime = 1f;
-    [SerializeField] private float _moveAfterUnscrewingDistance = 1f;
+    [SerializeField] private float _moveAfterUnscrewingDistance = 3f;
     [SerializeField] private float _yMoveDistance = 0.25f;
 
     private Tween _tween;
@@ -41,7 +41,7 @@ public class Screw : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
         while (true)
         {
-            transform.Rotate(0, Vector3.right.x * _rotationSpeed, 0);
+            transform.Rotate(0, 0, Vector3.right.x * _rotationSpeed);
             yield return null;
         }
     }
