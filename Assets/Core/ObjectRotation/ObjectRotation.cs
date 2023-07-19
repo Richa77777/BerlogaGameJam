@@ -37,7 +37,6 @@ public class ObjectRotation : MonoBehaviour
 
     private void Update()
     {
-        print(InRotation);
         if (Input.touchCount > 0)
         {
             if (Input.GetTouch(0).phase == TouchPhase.Moved)
