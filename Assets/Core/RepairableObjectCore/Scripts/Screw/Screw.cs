@@ -29,7 +29,7 @@ public class Screw : MonoBehaviour, IPointerClickHandler
                 _screwRotationCor = StartCoroutine(ScrewRotationCor());
             }
 
-            _tween = DOTween.Sequence().Append(transform.DOMoveY(transform.position.y + _yMoveDistance, _unscrewingTime))
+            _tween = DOTween.Sequence().Append(transform.DOLocalMoveY(transform.localPosition.y + _yMoveDistance, _unscrewingTime))
                 .AppendCallback(StopRotation);
         }
     }
@@ -52,8 +52,8 @@ public class Screw : MonoBehaviour, IPointerClickHandler
 
         DOTween.Sequence()
             .SetDelay(0.05f)
-            .Append(transform.DOMove(new Vector3(transform.position.x, transform.position.y + _moveAfterUnscrewingDistance, 
-            transform.position.z), _moveAfterUnscrewingTime))
+            .Append(transform.DOLocalMove(new Vector3(transform.localPosition.x, transform.localPosition.y + _moveAfterUnscrewingDistance, 
+            transform.localPosition.z), _moveAfterUnscrewingTime))
             .AppendCallback(OffGameObject);
     }
 

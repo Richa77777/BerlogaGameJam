@@ -32,7 +32,7 @@ public class UnpinDeviceObject : MonoBehaviour, IPointerClickHandler
             GameController.Instance.CurrentRotateableObject.BlockRotation();
 
             DOTween.Sequence()
-                .Append(transform.DOMoveY(transform.position.y + _yMoveDistance, _moveTime))
+                .Append(transform.DOLocalMoveY(transform.localPosition.y + _yMoveDistance, _moveTime))
                 .AppendCallback(OffObject);
         }
     }
