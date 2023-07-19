@@ -5,7 +5,7 @@ using DG.Tweening;
 using System.Collections;
 
 
-public class Screw : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class Screw : MonoBehaviour, IPointerClickHandler
 {
     public Action<Screw> OnUnscrewed;
 
@@ -18,12 +18,7 @@ public class Screw : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     private Tween _tween;
     private Coroutine _screwRotationCor;
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
+    public void OnPointerClick(PointerEventData eventData)
     {
         if (_tween == null)
         {

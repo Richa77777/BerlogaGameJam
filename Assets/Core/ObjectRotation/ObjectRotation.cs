@@ -15,6 +15,7 @@ public class ObjectRotation : MonoBehaviour
 
     public DetailsContainer DetailsContainer { get; private set; }
     public DeviceLaunchButton DeviceLaunchButton { get; private set; }
+    public bool InRotation { get; private set; } = false;
 
     private void Awake()
     {
@@ -36,20 +37,26 @@ public class ObjectRotation : MonoBehaviour
 
     private void Update()
     {
+        print(InRotation);
         if (Input.touchCount > 0)
         {
             if (Input.GetTouch(0).phase == TouchPhase.Moved)
             {
                 if (_rotationIsBlocked == false)
                 {
+                    InRotation = true;
                     float xRotation = Input.GetTouch(0).deltaPosition.x * _rotationSpeed * Mathf.Deg2Rad * Time.deltaTime;
                     float yRotation = Input.GetTouch(0).deltaPosition.y * _rotationSpeed * Mathf.Deg2Rad * Time.deltaTime;
 
                     transform.Rotate(Vector3.up, -xRotation, Space.World);
                     transform.Rotate(Vector3.right, yRotation, Space.World);
+
+                    return;
                 }
             }
         }
+
+        InRotation = false;
     }
 
     public void ReturnToStartRotation()
