@@ -1263,6 +1263,7 @@ Transform:
   m_Children:
   - {fileID: 2832406151182505843}
   - {fileID: 5811517545995833960}
+  - {fileID: 8622353167482398678}
   m_Father: {fileID: 543450652360144912}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2267,8 +2268,10 @@ GameObject:
   - component: {fileID: 8622353167482398678}
   - component: {fileID: 4356012028880190135}
   - component: {fileID: 220048890923879219}
+  - component: {fileID: 8622353167482398680}
+  - component: {fileID: 8622353167482398679}
   m_Layer: 0
-  m_Name: Plane.006
+  m_Name: Board2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2385,7 +2388,6 @@ Transform:
   - {fileID: 2892267967628315115}
   - {fileID: 4931218026706681054}
   - {fileID: 8616562854392804463}
-  - {fileID: 8622353167482398678}
   m_Father: {fileID: 5248862684575676546}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3553,8 +3555,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rotationSpeed: 2
   _unscrewingTime: 0.75
-  _moveAfterUnscrewingDistance: 3
-  _moveAfterUnscrewingTime: 1
+  _moveAfterUnscrewingDistance: 2
+  _moveAfterUnscrewingTime: 0.5
   _yMoveDistance: 0.25
 --- !u!65 &5015399380131687963
 BoxCollider:
@@ -3655,6 +3657,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _details:
   - {fileID: 6344692269075221133}
+  - {fileID: 8622353167482398679}
   - {fileID: 5811517545995833961}
 --- !u!114 &5248862684575676549
 MonoBehaviour:
@@ -3739,8 +3742,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rotationSpeed: 2
   _unscrewingTime: 0.75
-  _moveAfterUnscrewingDistance: 3
-  _moveAfterUnscrewingTime: 1
+  _moveAfterUnscrewingDistance: 2
+  _moveAfterUnscrewingTime: 0.5
   _yMoveDistance: 0.25
 --- !u!65 &5394367477219542347
 BoxCollider:
@@ -3902,7 +3905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1293a75b70458ca44a9e476eb29546f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isBroken: 0
+  _isBroken: 1
   _startMinigameEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -3968,8 +3971,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rotationSpeed: 2
   _unscrewingTime: 0.75
-  _moveAfterUnscrewingDistance: 3
-  _moveAfterUnscrewingTime: 1
+  _moveAfterUnscrewingDistance: 2
+  _moveAfterUnscrewingTime: 0.5
   _yMoveDistance: 0.25
 --- !u!65 &6451688462137555010
 BoxCollider:
@@ -4026,8 +4029,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rotationSpeed: 2
   _unscrewingTime: 0.75
-  _moveAfterUnscrewingDistance: 3
-  _moveAfterUnscrewingTime: 1
+  _moveAfterUnscrewingDistance: 2
+  _moveAfterUnscrewingTime: 0.5
   _yMoveDistance: 0.25
 --- !u!65 &6602529668593429029
 BoxCollider:
@@ -4523,9 +4526,43 @@ Transform:
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 543450652360144912}
-  m_RootOrder: 13
+  m_Father: {fileID: 1185739042}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8622353167482398679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50754953647487940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1293a75b70458ca44a9e476eb29546f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isBroken: 0
+  _startMinigameEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &8622353167482398680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50754953647487940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &8707273951745368043
 GameObject:
   m_ObjectHideFlags: 0
