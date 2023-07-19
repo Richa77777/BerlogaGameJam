@@ -22,7 +22,7 @@ public class Screw : MonoBehaviour, IPointerClickHandler
     {
         if (_tween == null)
         {
-            GameController.Instance.CurrentRotateableObject.BlockRotation();
+            GameController.Instance.CurrentRotateableObject.BlockRotation(gameObject);
 
             if (_screwRotationCor == null)
             {
@@ -59,7 +59,7 @@ public class Screw : MonoBehaviour, IPointerClickHandler
 
     private void OffGameObject()
     {
-        GameController.Instance.CurrentRotateableObject.UnblockRotation();
+        GameController.Instance.CurrentRotateableObject.UnblockRotation(gameObject);
         OnUnscrewed?.Invoke(this);
         gameObject.SetActive(false);
     }

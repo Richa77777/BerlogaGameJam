@@ -29,7 +29,7 @@ public class UnpinDeviceObject : MonoBehaviour, IPointerClickHandler
     {
         if (_isScrewed == false)
         {
-            GameController.Instance.CurrentRotateableObject.BlockRotation();
+            GameController.Instance.CurrentRotateableObject.BlockRotation(gameObject);
 
             DOTween.Sequence()
                 .Append(transform.DOLocalMoveY(transform.localPosition.y + _yMoveDistance, _moveTime))
@@ -39,7 +39,7 @@ public class UnpinDeviceObject : MonoBehaviour, IPointerClickHandler
 
     private void OffObject()
     {
-        GameController.Instance.CurrentRotateableObject.UnblockRotation();
+        GameController.Instance.CurrentRotateableObject.UnblockRotation(gameObject);
         gameObject.SetActive(false);
     }
 

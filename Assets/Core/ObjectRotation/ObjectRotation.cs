@@ -17,6 +17,8 @@ public class ObjectRotation : MonoBehaviour
     public DeviceLaunchButton DeviceLaunchButton { get; private set; }
     public bool InRotation { get; private set; } = false;
 
+    private GameObject _lastBlockingObject;
+
     private void Awake()
     {
         _startRotation = transform.eulerAngles;
@@ -71,13 +73,18 @@ public class ObjectRotation : MonoBehaviour
         _returnToStartPosTween = null;
     }
 
-    public void BlockRotation()
+    public void BlockRotation(GameObject blocker)
     {
+        _lastBlockingObject = blocker;
         _rotationIsBlocked = true;
     }
 
-    public void UnblockRotation()
+    public void UnblockRotation(GameObject unblocker)
     {
-        _rotationIsBlocked = false;
+        print(_lastBlockingObject.name);
+        if (_lastBlockingObject == unblocker)
+        {
+            _rotationIsBlocked = false;
+        }
     }
 }
