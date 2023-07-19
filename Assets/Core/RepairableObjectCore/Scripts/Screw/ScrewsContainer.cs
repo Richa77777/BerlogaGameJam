@@ -1,13 +1,14 @@
 using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ScrewsContainer : MonoBehaviour
 {
+    public Action AllUnscrewed;
+
     [SerializeField] private List<Screw> _screwsInDevice = new List<Screw>();
-    [SerializeField] private GameObject _unscrewableObject; // Тот объект, который будет двигаться вверх и исчезать при отвинчивании всех винтов.
-    [SerializeField] private float _unscrewableObjectMoveDistance = 1f;
-    [SerializeField] private float _unscrewableObjectMoveTime = 1f;
+
 
     private void Start()
     {
@@ -23,14 +24,7 @@ public class ScrewsContainer : MonoBehaviour
 
         if (_screwsInDevice.Count <= 0)
         {
-            DOTween.Sequence()
-                .Append(_unscrewableObject.transform.DOMoveY(_unscrewableObject.transform.position.y + _unscrewableObjectMoveDistance, _unscrewableObjectMoveTime))
-                .AppendCallback(OffScrewableObject);
+            AllUnscrewed?.Invoke();
         }
-    }
-
-    private void OffScrewableObject()
-    {
-        _unscrewableObject.SetActive(false);
     }
 }

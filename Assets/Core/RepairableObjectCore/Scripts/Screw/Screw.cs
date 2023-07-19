@@ -11,8 +11,8 @@ public class Screw : MonoBehaviour, IPointerClickHandler
 
     [SerializeField] private float _rotationSpeed = 2f;
     [SerializeField] private float _unscrewingTime = 0.75f;
-    [SerializeField] private float _moveAfterUnscrewingTime = 1f;
     [SerializeField] private float _moveAfterUnscrewingDistance = 3f;
+    [SerializeField] private float _moveAfterUnscrewingTime = 1f;
     [SerializeField] private float _yMoveDistance = 0.25f;
 
     private Tween _tween;

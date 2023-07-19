@@ -8,8 +8,8 @@ public class Detail : MonoBehaviour
     [SerializeField] private bool _isBroken;
     [SerializeField] UnityEvent _startMinigameEvent;
 
-    [SerializeField] private Color _brokenColor;
-    [SerializeField] private Color _notBrokenColor;
+    private Color _brokenColor;
+    private Color _notBrokenColor;
 
     private Outline _outlineComponent;
     private Coroutine _colorizeCor;
@@ -17,16 +17,18 @@ public class Detail : MonoBehaviour
     public bool GetIsBroken => _isBroken;
     public UnityEvent GetStartMinigameEvent => _startMinigameEvent;
 
-
-
     private void Awake()
     {
+        _brokenColor = Color.red;
+        _notBrokenColor = Color.green;
+
         _outlineComponent = GetComponent<Outline>();
 
         Color color = _outlineComponent.OutlineColor;
         color.a = 0f;
 
         _outlineComponent.OutlineColor = color;
+        _outlineComponent.OutlineWidth = 10;
     }
 
     public void RepairDetail()
