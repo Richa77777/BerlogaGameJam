@@ -22,5 +22,10 @@ public class GameController : MonoBehaviour
     }
     #endregion
 
-    [SerializeField] private ObjectRotation _currentRotateableObject;
+    public ObjectRotation CurrentRotateableObject { get; private set; }
+
+    public void SetCurrentRotateableObject(ObjectRotation rotateableObject)
+    {
+        CurrentRotateableObject = rotateableObject;
+    }
 }

@@ -3,22 +3,35 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
 
+[RequireComponent(typeof(DetailsContainer), typeof(DeviceLaunchButton))]
 public class ObjectRotation : MonoBehaviour
 {
     [SerializeField] private float _rotationSpeed;
-    [SerializeField] private Button _returnRotationButton;
 
     private Vector3 _startRotation;
     private Tween _returnToStartPosTween;
 
     private bool _rotationIsBlocked = false;
 
+    public DetailsContainer DetailsContainer { get; private set; }
+    public DeviceLaunchButton DeviceLaunchButton { get; private set; }
+
     private void Awake()
     {
         _startRotation = transform.eulerAngles;
-        _returnRotationButton.onClick.AddListener(ReturnToStartRotation);
 
         _rotationSpeed *= 100;
+
+        DetailsContainer = GetComponent<DetailsContainer>();
+        DeviceLaunchButton = GetComponent<DeviceLaunchButton>();
+    }
+
+    private void Start()
+    {
+        if (GameController.Instance != null)
+        {
+            GameController.Instance.SetCurrentRotateableObject(this);
+        }
     }
 
     private void Update()
@@ -39,7 +52,7 @@ public class ObjectRotation : MonoBehaviour
         }
     }
 
-    private void ReturnToStartRotation()
+    public void ReturnToStartRotation()
     {
         if (_returnToStartPosTween == null)
         {
