@@ -1020,6 +1020,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1545884310}
   - component: {fileID: 1545884309}
+  - component: {fileID: 1545884312}
+  - component: {fileID: 1545884311}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1058,6 +1060,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1545884311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545884308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7b57099aa4e96d4dbe6d177a58f2931, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _level:
+    levels: 
+    levelNumber: 0
+--- !u!114 &1545884312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545884308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f27eb934bba63be429a8ecd6d5eefcb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  straightGridCellPrefab: {fileID: 0}
+  angleGridCellPrefab: {fileID: 0}
+  threeSidesGridCellPrefab: {fileID: 0}
+  pointGridCellPrefab: {fileID: 0}
 --- !u!1001 &1823058651
 PrefabInstance:
   m_ObjectHideFlags: 0
