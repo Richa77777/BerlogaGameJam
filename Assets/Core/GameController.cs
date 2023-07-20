@@ -42,7 +42,7 @@ public class GameController : MonoBehaviour
         {
             SceneManager.LoadScene(minigameSceneName, LoadSceneMode.Additive);
 
-            CurrentRotateableObject.gameObject.SetActive(false);
+            CurrentRotateableObject.BlockRotation(gameObject);
             CurrentMinigameName = minigameSceneName;
 
             MinigameCompleted += UnloadMinigame;
@@ -53,7 +53,7 @@ public class GameController : MonoBehaviour
     {
         if (CurrentMinigameName != string.Empty)
         {
-            CurrentRotateableObject.gameObject.SetActive(true);
+            CurrentRotateableObject.UnblockRotation(gameObject);
             CurrentMinigameName = string.Empty;
 
             SceneManager.UnloadSceneAsync(minigameSceneName);

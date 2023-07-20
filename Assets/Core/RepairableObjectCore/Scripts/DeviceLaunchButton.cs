@@ -23,9 +23,9 @@ public class DeviceLaunchButton : MonoBehaviour
 
     public void Launch()
     {
-        if (_detailsContainer != null)
-        {
-            _detailsContainer.ColorizeAllDetails();
-        }
+        //if (_detailsContainer != null)
+        //{
+        //    _detailsContainer.ColorizeAllDetails();
+        //}
     }
 }

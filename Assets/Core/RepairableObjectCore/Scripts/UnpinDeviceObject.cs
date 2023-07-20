@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
@@ -9,6 +10,8 @@ public class UnpinDeviceObject : MonoBehaviour, IPointerClickHandler
 
     [SerializeField] private bool _isScrewed = false;
     [SerializeField] private ScrewsContainer _screwsContainer; // if _isScrewed == true
+
+    [SerializeField] private bool _colorizeDetailsAfterUnpin = false;
 
     private void Start()
     {
@@ -39,6 +42,11 @@ public class UnpinDeviceObject : MonoBehaviour, IPointerClickHandler
 
     private void OffObject()
     {
+        if (_colorizeDetailsAfterUnpin == true)
+        {
+            GameController.Instance.CurrentRotateableObject.DetailsContainer.ColorizeAllDetails();
+        }
+
         GameController.Instance.CurrentRotateableObject.UnblockRotation(gameObject);
         gameObject.SetActive(false);
     }

@@ -703,6 +703,7 @@ MonoBehaviour:
   _moveTime: 1
   _isScrewed: 1
   _screwsContainer: {fileID: 853466023}
+  _colorizeDetailsAfterUnpin: 0
 --- !u!1 &850848279
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,7 +723,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &850848280
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1039,6 +1040,7 @@ GameObject:
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
+  - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1162,6 +1164,63 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 51
   m_MaxRayIntersections: 0
+--- !u!114 &963194231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a78da3f00f3328541b4526c0b0b5ec5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lineThickness: 1.25
+  lineIntensity: 0.5
+  fillAmount: 0.2
+  lineColor0:
+    r: 1
+    g: 0
+    b: 0
+    a: 1
+  lineColor1:
+    r: 0
+    g: 1
+    b: 0
+    a: 1
+  lineColor2:
+    r: 0
+    g: 0
+    b: 1
+    a: 1
+  additiveRendering: 0
+  backfaceCulling: 1
+  fillColor:
+    r: 0
+    g: 0
+    b: 1
+    a: 1
+  useFillColor: 0
+  cornerOutlines: 0
+  addLinesBetweenColors: 0
+  scaleWithScreenSize: 1
+  alphaCutoff: 0.5
+  flipY: 0
+  sourceCamera: {fileID: 963194227}
+  autoEnableOutlines: 0
+  outlineCamera: {fileID: 0}
+  outline1Material: {fileID: 0}
+  outline2Material: {fileID: 0}
+  outline3Material: {fileID: 0}
+  outlineEraseMaterial: {fileID: 0}
+  outlineShader: {fileID: 0}
+  outlineBufferShader: {fileID: 0}
+  outlineShaderMaterial: {fileID: 0}
+  renderTexture: {fileID: 0}
+  extraRenderTexture: {fileID: 0}
+  materialBuffer: []
+  RenderTheNextFrame: 0
 --- !u!1 &1178266390
 GameObject:
   m_ObjectHideFlags: 0
@@ -2402,7 +2461,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4204896804504523506}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.605597, y: -0.16156769, z: -0.37447336}
+  m_LocalPosition: {x: -0.605597, y: -0.1545, z: -0.37447336}
   m_LocalScale: {x: 4.5266714, y: 4.5266714, z: 4.5266714}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3130,7 +3189,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5394367477219542345}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.605597, y: -0.16156769, z: 0.37447298}
+  m_LocalPosition: {x: -0.605597, y: -0.15449905, z: 0.37447298}
   m_LocalScale: {x: 4.5266714, y: 4.5266714, z: 4.5266714}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3741,7 +3800,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4362477651123444493}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.6073189, y: -0.16156769, z: -0.37447336}
+  m_LocalPosition: {x: 0.6073189, y: -0.15449905, z: -0.37447336}
   m_LocalScale: {x: 4.5266714, y: 4.5266714, z: 4.5266714}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4031,7 +4090,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 982548018331313617}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.6073189, y: -0.16156769, z: 0.37447298}
+  m_LocalPosition: {x: 0.6073189, y: -0.15449905, z: 0.37447298}
   m_LocalScale: {x: 4.5266714, y: 4.5266714, z: 4.5266714}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4306,9 +4365,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _yMoveDistance: 3
-  _moveTime: 1
+  _moveTime: 0.5
   _isScrewed: 0
   _screwsContainer: {fileID: 0}
+  _colorizeDetailsAfterUnpin: 1
 --- !u!65 &7685259906967536906
 BoxCollider:
   m_ObjectHideFlags: 0

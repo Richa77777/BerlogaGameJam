@@ -2,7 +2,6 @@ using System.Collections;
 using Udar.SceneManager;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Outline), typeof(Collider))]
 public class Detail : MonoBehaviour, IPointerClickHandler
@@ -43,7 +42,7 @@ public class Detail : MonoBehaviour, IPointerClickHandler
                 return;
             }
 
-            Debug.LogError("Мини-игра не присвоена переменной _minigameScene.");
+            Debug.LogError("Мини-игра не присвоена полю _minigameScene.");
         }
     }
 
@@ -52,6 +51,7 @@ public class Detail : MonoBehaviour, IPointerClickHandler
         if (_isBroken == true && sceneName == _minigameScene.Name)
         {
             _isBroken = false;
+            Colorize(0.5f);
             GameController.Instance.MinigameCompleted -= RepairDetail;
         }
     }

@@ -9,6 +9,14 @@ public class DetailsContainer : MonoBehaviour
 
     private Coroutine _colorizeAllDetailsCor;
 
+    public void ColorizeAllDetails(string nothing = "")
+    {
+        if (_colorizeAllDetailsCor == null)
+        {
+            _colorizeAllDetailsCor = StartCoroutine(ColorizeAllDetailsCor(_colorizeDuration));
+        }
+    }
+
     private int GetNotBrokenDetailsCount()
     {
         int count = 0;
@@ -24,14 +32,6 @@ public class DetailsContainer : MonoBehaviour
         return count;
     }
 
-    public void ColorizeAllDetails()
-    {
-        if (_colorizeAllDetailsCor == null)
-        {
-            _colorizeAllDetailsCor = StartCoroutine(ColorizeAllDetailsCor(_colorizeDuration));
-        }
-    }
-
     private IEnumerator ColorizeAllDetailsCor(float duration)
     {
         for (int i = 0; i < _details.Count; i++)
@@ -39,7 +39,6 @@ public class DetailsContainer : MonoBehaviour
             if (_details[i].ColorizePossible() == true)
             {
                 _details[i].Colorize(duration);
-                yield return new WaitForSeconds(duration);
             }
 
             yield return null;
