@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 
 [RequireComponent(typeof(DetailsContainer), typeof(DeviceLaunchButton))]
-public class ObjectRotation : MonoBehaviour
+public class Device : MonoBehaviour
 {
     [SerializeField] private float _rotationSpeed;
 
@@ -12,12 +12,11 @@ public class ObjectRotation : MonoBehaviour
     private Tween _returnToStartPosTween;
 
     private bool _rotationIsBlocked = false;
+    private GameObject _lastBlockingObject;
 
     public DetailsContainer DetailsContainer { get; private set; }
     public DeviceLaunchButton DeviceLaunchButton { get; private set; }
     public bool InRotation { get; private set; } = false;
-
-    private GameObject _lastBlockingObject;
 
     private void Awake()
     {
@@ -38,6 +37,11 @@ public class ObjectRotation : MonoBehaviour
     }
 
     private void Update()
+    {
+        RotateDevice();
+    }
+
+    private void RotateDevice()
     {
         if (Input.touchCount > 0)
         {
@@ -81,7 +85,6 @@ public class ObjectRotation : MonoBehaviour
 
     public void UnblockRotation(GameObject unblocker)
     {
-        print(_lastBlockingObject.name);
         if (_lastBlockingObject == unblocker)
         {
             _rotationIsBlocked = false;

@@ -1,12 +1,14 @@
 using System.Collections;
+using Udar.SceneManager;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(Outline))]
-public class Detail : MonoBehaviour
+[RequireComponent(typeof(Outline), typeof(Collider))]
+public class Detail : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private bool _isBroken;
-    [SerializeField] UnityEvent _startMinigameEvent;
+    [SerializeField] private SceneField _minigameScene;
 
     private Color _brokenColor;
     private Color _notBrokenColor;
@@ -15,7 +17,6 @@ public class Detail : MonoBehaviour
     private Coroutine _colorizeCor;
 
     public bool GetIsBroken => _isBroken;
-    public UnityEvent GetStartMinigameEvent => _startMinigameEvent;
 
     private void Awake()
     {
@@ -31,11 +32,27 @@ public class Detail : MonoBehaviour
         _outlineComponent.OutlineWidth = 10;
     }
 
-    public void RepairDetail()
+    public void OnPointerClick(PointerEventData eventData)
     {
         if (_isBroken == true)
         {
+            if (_minigameScene.HasScene == true)
+            {
+                GameController.Instance.LoadMinigame(_minigameScene.Name);
+                GameController.Instance.MinigameCompleted += RepairDetail;
+                return;
+            }
+
+            Debug.LogError("Мини-игра не присвоена переменной _minigameScene.");
+        }
+    }
+
+    private void RepairDetail(string sceneName)
+    {
+        if (_isBroken == true && sceneName == _minigameScene.Name)
+        {
             _isBroken = false;
+            GameController.Instance.MinigameCompleted -= RepairDetail;
         }
     }
 

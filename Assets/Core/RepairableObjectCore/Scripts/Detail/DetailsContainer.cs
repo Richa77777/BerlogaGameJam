@@ -5,6 +5,7 @@ using UnityEngine;
 public class DetailsContainer : MonoBehaviour
 {
     [SerializeField] private List<Detail> _details = new List<Detail>();
+    [SerializeField] private float _colorizeDuration = 0.5f;
 
     private Coroutine _colorizeAllDetailsCor;
 
@@ -23,11 +24,11 @@ public class DetailsContainer : MonoBehaviour
         return count;
     }
 
-    public void ColorizeAllDetails(float duration)
+    public void ColorizeAllDetails()
     {
         if (_colorizeAllDetailsCor == null)
         {
-            _colorizeAllDetailsCor = StartCoroutine(ColorizeAllDetailsCor(duration));
+            _colorizeAllDetailsCor = StartCoroutine(ColorizeAllDetailsCor(_colorizeDuration));
         }
     }
 

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class DeviceLaunchButton : MonoBehaviour
 {
-    [SerializeField] private float _colorizeDuration = 0.5f;
     private DetailsContainer _detailsContainer;
 
     private void Start()
@@ -26,7 +25,7 @@ public class DeviceLaunchButton : MonoBehaviour
     {
         if (_detailsContainer != null)
         {
-            _detailsContainer.ColorizeAllDetails(_colorizeDuration);
+            _detailsContainer.ColorizeAllDetails();
         }
     }
 }

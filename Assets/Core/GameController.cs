@@ -1,6 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using Udar.SceneManager;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -22,10 +23,42 @@ public class GameController : MonoBehaviour
     }
     #endregion
 
-    public ObjectRotation CurrentRotateableObject { get; private set; }
+    public Action<string> MinigameCompleted; // string - Scene.name
 
-    public void SetCurrentRotateableObject(ObjectRotation rotateableObject)
+    public Device CurrentRotateableObject { get; private set; }
+    public string CurrentMinigameName { get; private set; } = string.Empty;
+
+    public void SetCurrentRotateableObject(Device rotateableObject)
     {
-        CurrentRotateableObject = rotateableObject;
+        if (CurrentRotateableObject == null)
+        {
+            CurrentRotateableObject = rotateableObject;
+        }
+    }
+
+    public void LoadMinigame(string minigameSceneName)
+    {
+        if (CurrentMinigameName == string.Empty)
+        {
+            SceneManager.LoadScene(minigameSceneName, LoadSceneMode.Additive);
+
+            CurrentRotateableObject.gameObject.SetActive(false);
+            CurrentMinigameName = minigameSceneName;
+
+            MinigameCompleted += UnloadMinigame;
+        }
+    }
+
+    public void UnloadMinigame(string minigameSceneName)
+    {
+        if (CurrentMinigameName != string.Empty)
+        {
+            CurrentRotateableObject.gameObject.SetActive(true);
+            CurrentMinigameName = string.Empty;
+
+            SceneManager.UnloadSceneAsync(minigameSceneName);
+
+            MinigameCompleted -= UnloadMinigame;
+        }
     }
 }
