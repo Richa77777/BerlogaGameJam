@@ -100,7 +100,6 @@ public class AnchorGameObject : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    // Update is called once per frame
     void Update()
     {
         if (updateAnchorRoutine == null && executeInUpdate)

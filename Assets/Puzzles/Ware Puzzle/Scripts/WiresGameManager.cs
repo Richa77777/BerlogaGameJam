@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WiresGameManager : MonoBehaviour
+public class WiresGameManager : MonoBehaviour // проверка на победу
 {
 
     public GameObject wiresHolder;
@@ -10,14 +10,10 @@ public class WiresGameManager : MonoBehaviour
 
     [SerializeField] int totalWires = 0;
 
+    [SerializeField] GameObject WinConfetti;
+
     public int correctedWires = 0;
 
-    private void Awake()
-    {
-        Debug.Log($"Width = {Screen.width} ; Height = {Screen.height}");
-    }
-
-    // Start is called before the first frame update
     void Start()
     {
         totalWires = wiresHolder.transform.childCount;
@@ -34,9 +30,9 @@ public class WiresGameManager : MonoBehaviour
     {
         correctedWires++;
 
-        if(correctedWires == totalWires)
+        if(correctedWires == totalWires) // Win
         {
-            Debug.Log("Win!");
+            WinConfetti.SetActive(true);
         }
     }
 

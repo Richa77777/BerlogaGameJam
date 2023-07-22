@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectTouch : MonoBehaviour
+public class ObjectTouch : MonoBehaviour // проверка на нажатие по объекту
 {
     void Update()
     {
@@ -14,10 +14,10 @@ public class ObjectTouch : MonoBehaviour
             {
                 if (hit.collider != null)
                 {
-                    GameObject hitObject = hit.collider.gameObject; // Получаем объект, с которым произошло столкновение
+                    GameObject hitObject = hit.collider.gameObject; 
 
                     if (!hitObject.GetComponent<RotateCube>().isRotating)
-                        hitObject.GetComponent<RotateCube>().RotateMethod(); // Меняем переменную в объекте, с которым произошло столкновение
+                        hitObject.GetComponent<RotateCube>().RotateMethod();
                 }
             }
         }

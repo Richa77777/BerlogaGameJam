@@ -3,62 +3,28 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class RotateCube : MonoBehaviour
+public class RotateCube : MonoBehaviour // скрипт дл€ плавного вращени€ куба по оси Z
 {
-    public float rotationSpeed = 1f; // —корость вращени€
-    public float rotationThreshold = 0.01f; // ѕороговое значение дл€ завершени€ плавного вращени€
+    public float rotationSpeed = 1f;
+    public float rotationThreshold = 0.01f;
 
-    private Quaternion targetRotation; // ÷елевое вращение
-    public bool isRotating = false; // ‘лаг, указывающий, идет ли вращение
+    private Quaternion targetRotation;
+    public bool isRotating = false;
 
-    float[] anglesArray = { 0, 90, 180, -90 };
-
-    public float[] correctRotation;
-    public bool isCorrect = false;
-    int possibleRotations = 1;
-
-    WiresGameManager gameManager;
-
-    private void Awake()
-    {
-        gameManager = GameObject.Find("GameManager").GetComponent<WiresGameManager>();
-
-        Application.targetFrameRate = 90;
-    }
     void Start()
     {
-        possibleRotations = correctRotation.Length;
+        GetComponent<CorrectPositions>().RandomizePos();
 
-        int rand = Random.Range(0, anglesArray.Length);
-        transform.eulerAngles = new Vector3(0, 0, anglesArray[rand]);
+        targetRotation = transform.rotation;
 
-        targetRotation = transform.rotation; // »значально целевое вращение равно текущему вращению куба
-
-        if(possibleRotations == 2)
-        {
-            if (transform.eulerAngles.z == correctRotation[0] || transform.eulerAngles.z == correctRotation[1])
-            {
-                isCorrect = true;
-                gameManager.correctRotation();
-            }
-        }
-        if (possibleRotations == 1)
-        {
-            if (transform.eulerAngles.z == correctRotation[0])
-            {
-                isCorrect = true;
-                gameManager.correctRotation();
-            }
-        }
+        GetComponent<CorrectPositions>().CheckStartPos();
     }
 
     public void RotateMethod()
     {
-        // —оздаем новое целевое вращение путем добавлени€ 90 градусов к текущему вращению по оси Y
         targetRotation *= Quaternion.Euler(0f, 0f, 90f);
-        isRotating = false; // ”станавливаем флаг вращени€
+        isRotating = false;
 
-        // «апускаем корутину дл€ плавного вращени€
         StartCoroutine(RotateCubeCor());
     }
 
@@ -66,41 +32,13 @@ public class RotateCube : MonoBehaviour
     {
         while (Quaternion.Angle(transform.rotation, targetRotation) > rotationThreshold)
         {
-            // ѕлавно вращаем куб в направлении целевого вращени€
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
             yield return null;
         }
 
-        // ѕрисваиваем точное целевое вращение дл€ завершени€ поворота без погрешности
         transform.rotation = targetRotation;
-        isRotating = false; // —брасываем флаг вращени€
+        isRotating = false;
 
-        if (possibleRotations == 2)
-        {
-            if (Mathf.Round(transform.eulerAngles.z) == correctRotation[0] || Mathf.Floor(transform.eulerAngles.z) == correctRotation[1])
-            {
-                isCorrect = true;
-                gameManager.correctRotation();
-                Debug.Log($"{Mathf.Round(transform.eulerAngles.z)}");
-            }
-            else if (isCorrect)
-            {
-                isCorrect = false;
-                gameManager.uncorrectRotation();
-            }
-        }
-        if (possibleRotations == 1)
-        {
-            if (Mathf.Round(transform.eulerAngles.z) == correctRotation[0])
-            {
-                isCorrect = true;
-                gameManager.correctRotation();
-            }
-            else if (isCorrect)
-            {
-                isCorrect = false;
-                gameManager.uncorrectRotation();
-            }
-        }
+        GetComponent<CorrectPositions>().CheckPos();
     }
 }
