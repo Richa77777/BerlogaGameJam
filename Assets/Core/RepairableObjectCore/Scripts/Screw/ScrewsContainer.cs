@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScrewsContainer : MonoBehaviour
+public class ScrewsContainer : MonoBehaviour, IOutlined
 {
     public Action AllUnscrewed;
 
     [SerializeField] private List<Screw> _screwsInDevice = new List<Screw>();
 
+    Action IOutlined.OnInteractEnded { get => AllUnscrewed; set => AllUnscrewed = value; }
 
     private void Start()
     {
@@ -25,6 +26,14 @@ public class ScrewsContainer : MonoBehaviour
         if (_screwsInDevice.Count <= 0)
         {
             AllUnscrewed?.Invoke();
+        }
+    }
+
+    public void TurnOnOutline()
+    {
+        for (int i = 0; i < _screwsInDevice.Count; i++)
+        {
+            _screwsInDevice[i].TurnOnOutline();
         }
     }
 }

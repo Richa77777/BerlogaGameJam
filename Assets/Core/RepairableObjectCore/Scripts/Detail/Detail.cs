@@ -6,22 +6,25 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(Outline), typeof(Collider))]
 public class Detail : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] private bool _isBroken;
-    [SerializeField] private SceneField _minigameScene;
+    [SerializeField] private bool _isBroken = false;
+    [SerializeField] private bool _colorizeAtStart = false;
+    [SerializeField] private bool _minigameOnScene = false;
+    [SerializeField] private SceneField _minigameScene; // if _minigameOnScene == true
 
-    private Color _brokenColor;
-    private Color _notBrokenColor;
+    private IRepairable _repairableObject;
+
+    private Color _brokenColor = Color.red;
+    private Color _notBrokenColor = Color.green;
 
     private Outline _outlineComponent;
     private Coroutine _colorizeCor;
+
+    private bool _isClicked = false;
 
     public bool GetIsBroken => _isBroken;
 
     private void Awake()
     {
-        _brokenColor = Color.red;
-        _notBrokenColor = Color.green;
-
         _outlineComponent = GetComponent<Outline>();
 
         Color color = _outlineComponent.OutlineColor;
@@ -29,34 +32,69 @@ public class Detail : MonoBehaviour, IPointerClickHandler
 
         _outlineComponent.OutlineColor = color;
         _outlineComponent.OutlineWidth = 10;
+
+        _outlineComponent.enabled = false;
+    }
+
+    private void Start()
+    {
+        if (_isBroken == true && _minigameOnScene == false && !gameObject.TryGetComponent(out _repairableObject))
+        {
+            Debug.LogError("Объект IRepairable отсутствует на детали.");
+        }
+
+
+        if (_colorizeAtStart == true)
+        {
+            Colorize();
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (_isBroken == true)
+        if (_isBroken == true && _isClicked == false)
         {
-            if (_minigameScene.HasScene == true)
+            _isClicked = true;
+
+            if (_minigameOnScene == true)
             {
-                GameController.Instance.LoadMinigame(_minigameScene.Name);
-                GameController.Instance.MinigameCompleted += RepairDetail;
-                return;
+                if (_minigameScene.HasScene == true)
+                {
+                    GameController.Instance.LoadMinigame(_minigameScene.Name);
+                    GameController.Instance.SceneMinigameCompleted += RepairDetailSceneMinigame;
+                    return;
+                }
+
+                Debug.LogError("Объект SceneField не присвоен полю _minigameScene.");
             }
 
-            Debug.LogError("Мини-игра не присвоена полю _minigameScene.");
+            else if (_minigameOnScene == false)
+            {
+                _repairableObject.OnRepairEnded += RepairDetailNotSceneMinigame;
+            }
         }
     }
 
-    private void RepairDetail(string sceneName)
+    private void RepairDetailNotSceneMinigame()
+    {
+        if (_isBroken == true)
+        {
+            _isBroken = false;
+            Colorize();
+            _repairableObject.OnRepairEnded -= RepairDetailNotSceneMinigame;
+        }
+    }
+    private void RepairDetailSceneMinigame(string sceneName)
     {
         if (_isBroken == true && sceneName == _minigameScene.Name)
         {
             _isBroken = false;
-            Colorize(0.5f);
-            GameController.Instance.MinigameCompleted -= RepairDetail;
+            Colorize();
+            GameController.Instance.SceneMinigameCompleted -= RepairDetailSceneMinigame;
         }
     }
 
-    public void Colorize(float duration)
+    public void Colorize(float duration = 0.5f)
     {
         if (_colorizeCor == null)
         {
@@ -82,6 +120,8 @@ public class Detail : MonoBehaviour, IPointerClickHandler
     {
         if (duration > 0)
         {
+            _outlineComponent.enabled = true;
+
             Color startColor = _outlineComponent.OutlineColor;
             Color currentColor = startColor;
 

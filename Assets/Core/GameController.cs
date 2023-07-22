@@ -23,8 +23,9 @@ public class GameController : MonoBehaviour
     }
     #endregion
 
-    public Action<string> MinigameCompleted; // string - Scene.name
+    public Action<string> SceneMinigameCompleted; // string - Scene.name
 
+    public OutlineObjectsQueue CurrentDetailsOutlineController { get; private set; }
     public Device CurrentRotateableObject { get; private set; }
     public string CurrentMinigameName { get; private set; } = string.Empty;
 
@@ -33,8 +34,9 @@ public class GameController : MonoBehaviour
         if (CurrentRotateableObject == null)
         {
             CurrentRotateableObject = rotateableObject;
+            CurrentDetailsOutlineController = rotateableObject.DetailsOutlineController;
         }
-    }
+    }    
 
     public void LoadMinigame(string minigameSceneName)
     {
@@ -45,7 +47,7 @@ public class GameController : MonoBehaviour
             CurrentRotateableObject.BlockRotation(gameObject);
             CurrentMinigameName = minigameSceneName;
 
-            MinigameCompleted += UnloadMinigame;
+            SceneMinigameCompleted += UnloadMinigame;
         }
     }
 
@@ -58,7 +60,7 @@ public class GameController : MonoBehaviour
 
             SceneManager.UnloadSceneAsync(minigameSceneName);
 
-            MinigameCompleted -= UnloadMinigame;
+            SceneMinigameCompleted -= UnloadMinigame;
         }
     }
 }

@@ -16,6 +16,6 @@ public class DeviceLaunchButtonSetEvent : MonoBehaviour
             yield return null;
         }
 
-        GetComponent<Button>().onClick.AddListener(GameController.Instance.CurrentRotateableObject.DeviceLaunchButton.Launch);
+        GetComponent<Button>().onClick.AddListener(GameController.Instance.CurrentRotateableObject.LaunchButtonComponent.Launch);
     }
 }

@@ -2,9 +2,13 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using System;
 
-public class UnpinDeviceObject : MonoBehaviour, IPointerClickHandler
+[RequireComponent(typeof(Outline))]
+public class UnpinDeviceObject : MonoBehaviour, IPointerClickHandler, IOutlined
 {
+    private Action _onUnpined;
+
     [SerializeField] private float _yMoveDistance = 5;
     [SerializeField] private float _moveTime = 2;
 
@@ -13,8 +17,17 @@ public class UnpinDeviceObject : MonoBehaviour, IPointerClickHandler
 
     [SerializeField] private bool _colorizeDetailsAfterUnpin = false;
 
+    private Outline _outline;
+
+    Action IOutlined.OnInteractEnded { get => _onUnpined; set => _onUnpined = value; }
+
     private void Start()
     {
+        _outline = GetComponent<Outline>();
+        _outline.OutlineWidth = 10f;
+        _outline.OutlineColor = Color.blue;
+        _outline.enabled = false;
+
         if (_isScrewed == true)
         {
             if (_screwsContainer == null)
@@ -30,6 +43,8 @@ public class UnpinDeviceObject : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        _outline.enabled = false;
+
         if (_isScrewed == false)
         {
             GameController.Instance.CurrentRotateableObject.BlockRotation(gameObject);
@@ -42,9 +57,10 @@ public class UnpinDeviceObject : MonoBehaviour, IPointerClickHandler
 
     private void OffObject()
     {
+        _onUnpined?.Invoke();
         if (_colorizeDetailsAfterUnpin == true)
         {
-            GameController.Instance.CurrentRotateableObject.DetailsContainer.ColorizeAllDetails();
+            GameController.Instance.CurrentRotateableObject.DetailsContainerComponent.ColorizeAllDetails();
         }
 
         GameController.Instance.CurrentRotateableObject.UnblockRotation(gameObject);
@@ -54,5 +70,10 @@ public class UnpinDeviceObject : MonoBehaviour, IPointerClickHandler
     private void Unscrew()
     {
         _isScrewed = false;
+    }
+
+    public void TurnOnOutline()
+    {
+        _outline.enabled = true;
     }
 }

@@ -7,30 +7,26 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Battery : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
+public class Battery : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IRepairable
 {
     [SerializeField] private float moveTime = 0.75f;
     [SerializeField] private Vector3 moveDistance;
     [SerializeField] private Transform viewPosition;
     [SerializeField] private Slider slider; 
     [SerializeField] private Color sliderColorStart; 
-    [SerializeField] private Color sliderColorEnd; 
-    
+    [SerializeField] private Color sliderColorEnd;
+
+    private Action _onRepairEnded;
     private Tween _tween;
     private Tween _moveToCamera;
     private Tween _charge;
     private Tween _changeSlider;
-    private Tween _changeMaterial;
-    private Material _chargeMaterial;
     private Vector3 _startPos;
     private Quaternion _startRot;
 
     private bool _inMiniGame;
-    private void Start()
-    {
-        _chargeMaterial = transform.GetComponent<MeshRenderer>().materials[3];
-        _chargeMaterial.color = sliderColorStart;
-    }
+
+    public Action OnRepairEnded { get => _onRepairEnded; set => _onRepairEnded = value; }
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -38,7 +34,6 @@ public class Battery : MonoBehaviour, IPointerClickHandler, IPointerDownHandler,
         
         _tween = DOTween.Sequence().Append(transform.DOLocalMove(transform.localPosition + moveDistance, moveTime))
             .AppendCallback(MoveToCamera);
-        
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -46,16 +41,15 @@ public class Battery : MonoBehaviour, IPointerClickHandler, IPointerDownHandler,
         if (!_inMiniGame || _changeSlider != null) return;
         var lastSliderValue = slider.value;
         _changeSlider = slider.DOValue(slider.minValue, (-slider.minValue + lastSliderValue)).OnComplete(CompleteMiniGame);
-        _changeMaterial = _chargeMaterial.DOColor(sliderColorEnd, (-slider.minValue + lastSliderValue));
     }
+
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (!_inMiniGame || _changeSlider == null || _changeMaterial == null) return;
+        if (!_inMiniGame || _changeSlider == null) return;
         _changeSlider.Kill();
         _changeSlider = null;
-        _changeMaterial.Kill();
-        _changeMaterial = null;
     }
+
     private void MoveToCamera()
     {
         if (_moveToCamera != null) return;
@@ -69,10 +63,12 @@ public class Battery : MonoBehaviour, IPointerClickHandler, IPointerDownHandler,
             .Append(transform.DORotateQuaternion(viewPosition.rotation, 0.5f))
             .AppendCallback(StartMiniGame);
     }
+
     private void StartMiniGame()
     {
         _inMiniGame = true;
     }
+
     private void CompleteMiniGame()
     {
         if (_charge != null) return;
@@ -83,13 +79,18 @@ public class Battery : MonoBehaviour, IPointerClickHandler, IPointerDownHandler,
              .AppendCallback(DeleteTweens);
     }
 
-    public void DeleteTweens()
+    private void DeleteTweens()
     {
-        //End mini game < ---------------------------------------------------------------------
         _tween.Kill();
         _tween = null;
         moveDistance *= -1;
         GameController.Instance.CurrentRotateableObject.UnblockRotation(gameObject);
+
+        EndRepairing();
     }
-    
+
+    public void EndRepairing()
+    {
+        _onRepairEnded?.Invoke();
+    }
 }

@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using DG.Tweening;
 using System.Collections;
 
-
+[RequireComponent(typeof(Outline))]
 public class Screw : MonoBehaviour, IPointerClickHandler
 {
     public Action<Screw> OnUnscrewed;
@@ -15,11 +15,22 @@ public class Screw : MonoBehaviour, IPointerClickHandler
     [SerializeField] private float _moveAfterUnscrewingTime = 0.5f;
     [SerializeField] private float _yMoveDistance = 0.25f;
 
+    private Outline _outline;
     private Tween _tween;
     private Coroutine _screwRotationCor;
 
+    private void Awake()
+    {
+        _outline = GetComponent<Outline>(); 
+        _outline.OutlineWidth = 10f;
+        _outline.OutlineColor = Color.blue;
+        _outline.enabled = false;
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
+        _outline.enabled = false;
+
         if (_tween == null)
         {
             GameController.Instance.CurrentRotateableObject.BlockRotation(gameObject);
@@ -62,5 +73,10 @@ public class Screw : MonoBehaviour, IPointerClickHandler
         GameController.Instance.CurrentRotateableObject.UnblockRotation(gameObject);
         OnUnscrewed?.Invoke(this);
         gameObject.SetActive(false);
+    }
+
+    public void TurnOnOutline()
+    {
+        _outline.enabled = true;
     }
 }

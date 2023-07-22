@@ -18,7 +18,7 @@ public class DeviceLaunchButton : MonoBehaviour
             yield return null;
         }
 
-        _detailsContainer = GameController.Instance.CurrentRotateableObject.DetailsContainer;
+        _detailsContainer = GameController.Instance.CurrentRotateableObject.DetailsContainerComponent;
     }
 
     public void Launch()
