@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class KonamiCode : MonoBehaviour
 {
-    [SerializeField] private List<ButtonDevice> buttons;
-    [SerializeField] private GameObject effect;
+    [SerializeField] private List<ButtonDevice> _buttons;
+    [SerializeField] private GameObject _effect;
     private List<string> _typeSequence = new List<string>();
     private List<string> _needSequence = new List<string>(){"up", "up", "down", "down", "left", "right", "left", "right", "B", "A"};
 
     private void Start()
     {
-        foreach (var button in buttons)
+        foreach (var button in _buttons)
         {
             button.OnClick += ClickButton;
         }
@@ -30,11 +30,11 @@ public class KonamiCode : MonoBehaviour
 
     private void CompleteCode()
     {
-        foreach (var button in buttons)
+        foreach (var button in _buttons)
         {
             button.OnClick -= ClickButton;
         }
-        effect.SetActive(true);
+        _effect.SetActive(true);
     }
     
 }
