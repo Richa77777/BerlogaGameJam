@@ -96,6 +96,8 @@ public class Detail : MonoBehaviour, IPointerClickHandler
 
     public void Colorize(float duration = 0.5f)
     {
+        GameController.Instance.CurrentRotateableObject.DetailsContainerComponent.CheckBrokenDetails();
+
         if (_colorizeCor == null)
         {
             Color targetColor = _isBroken ? _brokenColor : _notBrokenColor;

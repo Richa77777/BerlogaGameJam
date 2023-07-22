@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MainLevels/Level1.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/WarePuzzle/TestMinigame.unity
-    guid: d9ce97f7173fdc447b7dd98028ffe4b2
+    path: Assets/Scenes/WarePuzzle/Ware Puzzle.unity
+    guid: 830d666922fd57a48affa72e517304ca
   m_configObjects: {}

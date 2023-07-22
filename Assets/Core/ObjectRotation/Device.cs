@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using DG.Tweening;
 
-[RequireComponent(typeof(DetailsContainer), typeof(DeviceLaunchButton), typeof(OutlineObjectsQueue))]
+[RequireComponent(typeof(DetailsContainer), typeof(OutlineObjectsQueue))]
 public class Device : MonoBehaviour
 {
     [SerializeField] private float _rotationSpeed;
@@ -16,7 +16,6 @@ public class Device : MonoBehaviour
 
     public OutlineObjectsQueue DetailsOutlineController { get; private set; }
     public DetailsContainer DetailsContainerComponent { get; private set; }
-    public DeviceLaunchButton LaunchButtonComponent { get; private set; }
     public bool InRotation { get; private set; } = false;
 
     private void Awake()
@@ -27,7 +26,6 @@ public class Device : MonoBehaviour
 
         DetailsOutlineController = GetComponent<OutlineObjectsQueue>();
         DetailsContainerComponent = GetComponent<DetailsContainer>();
-        LaunchButtonComponent = GetComponent<DeviceLaunchButton>();
     }
 
     private void Start()
