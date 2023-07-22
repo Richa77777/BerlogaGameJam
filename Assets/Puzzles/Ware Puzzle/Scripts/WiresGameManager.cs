@@ -12,6 +12,11 @@ public class WiresGameManager : MonoBehaviour
 
     public int correctedWires = 0;
 
+    private void Awake()
+    {
+        Debug.Log($"Width = {Screen.width} ; Height = {Screen.height}");
+    }
+
     // Start is called before the first frame update
     void Start()
     {
