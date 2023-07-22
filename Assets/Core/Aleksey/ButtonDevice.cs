@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class ButtonDevice : MonoBehaviour, IPointerClickHandler
 {
-    public string key;
+    [SerializeField] private string key;
     public Action<string> OnClick;
     private Sequence _clickButton;
     private float _startPosY;
