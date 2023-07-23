@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WiresGameManager : MonoBehaviour // проверка на победу
 {
-
     public GameObject wiresHolder;
     public GameObject[] wires;
 
@@ -33,11 +33,18 @@ public class WiresGameManager : MonoBehaviour // проверка на победу
         if(correctedWires == totalWires) // Win
         {
             WinConfetti.SetActive(true);
+
+            Invoke(nameof(EndMinigame), 1f);
         }
     }
 
     public void uncorrectRotation()
     {
         correctedWires--;
+    }
+
+    private void EndMinigame()
+    {
+        GameController.Instance.OnSceneMinigameCompleted?.Invoke(GameController.Instance.CurrentMinigameName);
     }
 }

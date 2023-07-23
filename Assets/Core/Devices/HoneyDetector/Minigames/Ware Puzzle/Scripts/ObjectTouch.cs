@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class ObjectTouch : MonoBehaviour // проверка на нажатие по объекту
 {
+    private Camera _camera;
+
+    private void Start()
+    {
+        _camera = GameObject.FindGameObjectWithTag("MinigameCamera").GetComponent<Camera>();
+    }
+
     void Update()
     {
         if ((Input.touchCount > 0) && (Input.touches[0].phase == TouchPhase.Began))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.touches[0].position);
+            Ray ray = _camera.ScreenPointToRay(Input.touches[0].position);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {

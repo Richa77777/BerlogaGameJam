@@ -32,6 +32,14 @@ public class DetailsContainer : MonoBehaviour
         return count;
     }
 
+    public void CheckBrokenDetails()
+    {
+        if (GetNotBrokenDetailsCount() >= _details.Count)
+        {
+
+        }
+    }
+
     private IEnumerator ColorizeAllDetailsCor(float duration)
     {
         for (int i = 0; i < _details.Count; i++)
@@ -44,6 +52,7 @@ public class DetailsContainer : MonoBehaviour
             yield return null;
         }
 
+        CheckBrokenDetails();
         _colorizeAllDetailsCor = null;
     }
 }
