@@ -46,8 +46,18 @@ public class Detail : MonoBehaviour, IPointerClickHandler
 
         if (_colorizeAtStart == true)
         {
-            Colorize();
+            StartCoroutine(WaitRotateableObjectColorize());
         }
+    }
+
+    private IEnumerator WaitRotateableObjectColorize()
+    {
+        while (GameController.Instance == null || GameController.Instance.CurrentRotateableObject == null)
+        {
+            yield return null;
+        }
+
+        Colorize();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -61,7 +71,7 @@ public class Detail : MonoBehaviour, IPointerClickHandler
                 if (_minigameScene.HasScene == true)
                 {
                     GameController.Instance.LoadMinigame(_minigameScene.Name);
-                    GameController.Instance.SceneMinigameCompleted += RepairDetailSceneMinigame;
+                    GameController.Instance.OnSceneMinigameCompleted += RepairDetailSceneMinigame;
                     return;
                 }
 
@@ -90,7 +100,7 @@ public class Detail : MonoBehaviour, IPointerClickHandler
         {
             _isBroken = false;
             Colorize();
-            GameController.Instance.SceneMinigameCompleted -= RepairDetailSceneMinigame;
+            GameController.Instance.OnSceneMinigameCompleted -= RepairDetailSceneMinigame;
         }
     }
 

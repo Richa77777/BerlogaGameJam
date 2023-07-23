@@ -45,6 +45,6 @@ public class WiresGameManager : MonoBehaviour // проверка на победу
 
     private void EndMinigame()
     {
-        GameController.Instance.SceneMinigameCompleted?.Invoke(GameController.Instance.CurrentMinigameName);
+        GameController.Instance.OnSceneMinigameCompleted?.Invoke(GameController.Instance.CurrentMinigameName);
     }
 }

@@ -36,7 +36,7 @@ public class DetailsContainer : MonoBehaviour
     {
         if (GetNotBrokenDetailsCount() >= _details.Count)
         {
-            print("s");
+
         }
     }
 

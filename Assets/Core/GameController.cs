@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Udar.SceneManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -23,7 +24,13 @@ public class GameController : MonoBehaviour
     }
     #endregion
 
-    public Action<string> SceneMinigameCompleted; // string - Scene.name
+    public Action<string> OnSceneMinigameCompleted; // string - Scene.name
+
+    public Action OnMinigameStarted;
+    public Action OnRestart;
+
+    private Coroutine _loadUnloadCor;
+    private Coroutine _restartGameCor;
 
     public OutlineObjectsQueue CurrentDetailsOutlineController { get; private set; }
     public Device CurrentRotateableObject { get; private set; }
@@ -36,18 +43,16 @@ public class GameController : MonoBehaviour
             CurrentRotateableObject = rotateableObject;
             CurrentDetailsOutlineController = rotateableObject.DetailsOutlineController;
         }
-    }    
+    }
 
     public void LoadMinigame(string minigameSceneName)
     {
         if (CurrentMinigameName == string.Empty)
         {
-            SceneManager.LoadScene(minigameSceneName, LoadSceneMode.Additive);
-
-            CurrentRotateableObject.BlockRotation(gameObject);
-            CurrentMinigameName = minigameSceneName;
-
-            SceneMinigameCompleted += UnloadMinigame;
+            if (_loadUnloadCor == null)
+            {
+                _loadUnloadCor = StartCoroutine(LoadMinigameCor(minigameSceneName));
+            }
         }
     }
 
@@ -55,12 +60,71 @@ public class GameController : MonoBehaviour
     {
         if (CurrentMinigameName != string.Empty)
         {
-            CurrentRotateableObject.UnblockRotation(gameObject);
-            CurrentMinigameName = string.Empty;
-
-            SceneManager.UnloadSceneAsync(minigameSceneName);
-
-            SceneMinigameCompleted -= UnloadMinigame;
+            if (_loadUnloadCor == null)
+            {
+                _loadUnloadCor = StartCoroutine(UnloadMinigameCor(minigameSceneName));
+            }
         }
+    }
+
+    private IEnumerator LoadMinigameCor(string minigameSceneName)
+    {
+        FadeController.Instance.Fade();
+
+        CurrentRotateableObject.BlockRotation(gameObject);
+        CurrentMinigameName = minigameSceneName;
+
+        OnSceneMinigameCompleted += UnloadMinigame;
+
+        yield return new WaitForSeconds(FadeController.Instance.GetFadeDuration / 2);
+
+        OnMinigameStarted?.Invoke();
+
+        SceneManager.LoadScene(minigameSceneName, LoadSceneMode.Additive);
+
+        yield return new WaitForSeconds(FadeController.Instance.GetFadeDuration / 2);
+
+        _loadUnloadCor = null;
+    }
+
+    private IEnumerator UnloadMinigameCor(string minigameSceneName)
+    {
+        FadeController.Instance.Fade();
+
+        CurrentRotateableObject.UnblockRotation(gameObject);
+        CurrentMinigameName = string.Empty;
+
+        OnSceneMinigameCompleted -= UnloadMinigame;
+
+        yield return new WaitForSeconds(FadeController.Instance.GetFadeDuration / 2);
+
+        SceneManager.UnloadSceneAsync(minigameSceneName);
+
+        yield return new WaitForSeconds(FadeController.Instance.GetFadeDuration / 2);
+
+        _loadUnloadCor = null;
+    }
+
+    public void RestartGame()
+    {
+        if (_restartGameCor == null)
+        {
+            _restartGameCor = StartCoroutine(RestartGameCor());
+        }
+    }
+
+    private IEnumerator RestartGameCor()
+    {
+        OnRestart?.Invoke();
+
+        FadeController.Instance.Fade();
+
+        yield return new WaitForSeconds(FadeController.Instance.GetFadeDuration / 2);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        yield return new WaitForSeconds(FadeController.Instance.GetFadeDuration / 2);
+
+        _restartGameCor = null;
     }
 }

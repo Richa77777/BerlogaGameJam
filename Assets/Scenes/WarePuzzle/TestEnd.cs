@@ -7,6 +7,6 @@ public class TestEnd : MonoBehaviour, IPointerClickHandler
 {
     public void OnPointerClick(PointerEventData eventData)
     {
-        GameController.Instance.SceneMinigameCompleted?.Invoke(GameController.Instance.CurrentMinigameName);
+        GameController.Instance.OnSceneMinigameCompleted?.Invoke(GameController.Instance.CurrentMinigameName);
     }
 }
